@@ -1,19 +1,20 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import SplashScreen from "@/components/SplashScreen";
+import CursorGlow from "@/components/CursorGlow";
 
 const Index = () => {
   const [showSplash, setShowSplash] = useState(true);
   const [showContent, setShowContent] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setShowSplash(false), 3200);
+    const timer = setTimeout(() => setShowSplash(false), 2800);
     return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="min-h-screen bg-background overflow-hidden">
-      <div className="grain-overlay" />
+    <div className="min-h-screen bg-background">
+      <CursorGlow />
 
       <SplashScreen
         isVisible={showSplash}
@@ -22,41 +23,32 @@ const Index = () => {
 
       {showContent && (
         <motion.div
-          className="relative z-10 flex min-h-screen flex-col items-center justify-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="flex min-h-screen flex-col items-center justify-center"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
         >
-          <motion.h1
-            className="text-5xl font-bold tracking-tight sm:text-7xl md:text-8xl"
-            animate={{
-              backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
-            }}
-            transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-            style={{
-              backgroundImage:
-                "linear-gradient(90deg, hsl(var(--foreground)), hsl(var(--primary)), hsl(var(--foreground)))",
-              backgroundSize: "200% auto",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
+          <motion.p
+            className="text-sm font-medium uppercase tracking-[0.3em] text-muted-foreground"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
           >
             Coming Soon
-          </motion.h1>
+          </motion.p>
 
           <motion.div
-            className="mt-6 h-px w-24 bg-muted-foreground/30"
+            className="mt-4 h-px w-12 bg-primary/30"
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
+            transition={{ delay: 0.5, duration: 0.6 }}
           />
 
           <motion.p
-            className="mt-6 text-sm tracking-widest uppercase text-muted-foreground"
+            className="mt-4 text-xs text-muted-foreground/50"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
+            transition={{ delay: 0.7, duration: 0.5 }}
           >
             sakn's edits
           </motion.p>
