@@ -14,23 +14,23 @@ const SplashScreen = ({ onComplete, isVisible }: SplashScreenProps) => {
       {isVisible && (
         <motion.div
           className="fixed inset-0 z-50 flex items-center justify-center bg-background"
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="flex items-baseline gap-2 text-2xl font-semibold tracking-tight sm:text-3xl">
+          <div className="flex items-baseline gap-3 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
             <motion.span
               className="text-primary"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ delay: 0.4, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
               {word1}
             </motion.span>
             <motion.span
               className="text-foreground"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ opacity: 0, y: 30, filter: "blur(8px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ delay: 0.6, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
               {word2}
             </motion.span>
