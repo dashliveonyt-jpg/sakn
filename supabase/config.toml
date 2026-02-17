@@ -1,4 +1,7 @@
 project_id = "chjdjcmaegltjeufdhrj"
 
+[functions.video-embed]
+verify_jwt = false
+
 [storage]
 file_size_limit = "1GB"

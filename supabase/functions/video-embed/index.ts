@@ -35,8 +35,8 @@ Deno.serve(async (req) => {
 
   const siteUrl = Deno.env.get("SITE_URL") || "https://sakns-entrance-magic.lovable.app";
   const pageUrl = `${siteUrl}/video/${videoId}`;
-  const title = video.title || "Sakn's Clips";
-  const description = video.description || "Watch this clip on Sakn's Clips";
+  const title = video.title || "Sakn's Video Hosting";
+  const description = video.description || "Watch this video on Sakn's Video Hosting";
 
   const html = `<!DOCTYPE html>
 <html>
@@ -52,7 +52,7 @@ Deno.serve(async (req) => {
   <meta property="og:video:type" content="video/mp4">
   <meta property="og:video:width" content="1280">
   <meta property="og:video:height" content="720">
-  <meta property="og:site_name" content="Sakn's Clips">
+  <meta property="og:site_name" content="Sakn's Video Hosting">
   <meta name="twitter:card" content="player">
   <meta name="twitter:title" content="${escapeHtml(title)}">
   <meta name="twitter:description" content="${escapeHtml(description)}">
