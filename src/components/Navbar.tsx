@@ -28,7 +28,7 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 py-4 backdrop-blur-md bg-background/60 border-b border-white/5">
       <Link to="/" className="flex items-center gap-2">
         <Sparkles className="h-5 w-5 text-primary" />
-        <span className="font-bold text-lg tracking-tight">sakn's clips</span>
+        <span className="font-bold text-lg tracking-tight">sakn's video hosting</span>
       </Link>
 
       <div className="flex items-center gap-6 text-sm">
