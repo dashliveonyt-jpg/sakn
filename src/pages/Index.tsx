@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import SplashScreen from "@/components/SplashScreen";
 import CursorGlow from "@/components/CursorGlow";
+import Navbar from "@/components/Navbar";
 import { ArrowRight, Film, Code, Sparkles } from "lucide-react";
 
 const Index = () => {
@@ -28,25 +29,7 @@ const Index = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
         >
-          {/* Navbar */}
-          <nav className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 py-4 backdrop-blur-md bg-background/60 border-b border-white/5">
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-primary" />
-              <span className="font-bold text-lg tracking-tight">sakn's edits</span>
-            </div>
-            <div className="hidden sm:flex items-center gap-6 text-sm text-muted-foreground">
-              <a href="#home" className="hover:text-foreground transition-colors">Home</a>
-              <a href="#tools" className="hover:text-foreground transition-colors">Tools</a>
-            </div>
-            <a
-              href="https://tiktok.com/@Uhsakn"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-md border border-primary px-4 py-1.5 text-sm font-medium text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
-            >
-              TikTok
-            </a>
-          </nav>
+          <Navbar />
 
           {/* Hero */}
           <section id="home" className="flex flex-col items-center justify-center pt-40 pb-20 px-6 text-center">
