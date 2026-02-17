@@ -271,9 +271,9 @@ const Profile = () => {
                     <div className="flex items-center gap-1">
                       <button
                         onClick={() => {
-                          const url = `${window.location.origin}/video/${video.id}`;
-                          navigator.clipboard.writeText(url);
-                          alert("Link copied!");
+                          const embedUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/video-embed?id=${video.id}`;
+                          navigator.clipboard.writeText(embedUrl);
+                          alert("Embed link copied! Paste it in Discord, Twitter, etc. for a video preview.");
                         }}
                         className="text-muted-foreground hover:text-primary transition-colors p-1"
                         title="Copy share link"
