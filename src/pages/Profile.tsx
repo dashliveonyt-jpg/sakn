@@ -273,7 +273,7 @@ const Profile = () => {
                     <div className="flex items-center gap-1">
                       <button
                         onClick={() => {
-                          const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/video-embed?id=${video.id}`;
+                          const url = `https://sakn.lol/video/${video.id}`;
                           navigator.clipboard.writeText(url);
                           toast({ title: "Copied link" });
                         }}
