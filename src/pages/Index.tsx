@@ -30,19 +30,18 @@ const Index = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <div className="flex overflow-hidden">
+          <div className="flex py-4">
             {comingSoonLetters.map((letter, i) => (
               <motion.span
                 key={i}
                 className="text-2xl font-bold uppercase tracking-[0.3em] text-foreground sm:text-3xl md:text-4xl"
                 animate={{
-                  y: [0, -8, 0],
+                  y: [0, -12, 0, 12, 0],
                 }}
                 transition={{
-                  delay: i * 0.08,
-                  duration: 1.2,
+                  delay: i * 0.12,
+                  duration: 2,
                   repeat: Infinity,
-                  repeatDelay: comingSoonLetters.length * 0.08,
                   ease: "easeInOut",
                 }}
                 style={{ display: "inline-block", minWidth: letter === " " ? "0.5em" : undefined }}
