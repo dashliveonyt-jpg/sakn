@@ -1,8 +1,28 @@
 import { Sparkles } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import type { User } from "@supabase/supabase-js";
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/");
+  };
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 py-4 backdrop-blur-md bg-background/60 border-b border-white/5">
@@ -26,14 +46,36 @@ const Navbar = () => {
         </Link>
       </div>
 
-      <a
-        href="https://tiktok.com/@Uhsakn"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="rounded-md border border-primary px-4 py-1.5 text-sm font-medium text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
-      >
-        TikTok
-      </a>
+      <div className="flex items-center gap-3 text-sm">
+        {user ? (
+          <>
+            <span className="text-muted-foreground hidden sm:inline truncate max-w-[120px]">
+              {user.email}
+            </span>
+            <button
+              onClick={handleLogout}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Log Out
+            </button>
+          </>
+        ) : (
+          <>
+            <Link
+              to="/login"
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Login
+            </Link>
+            <Link
+              to="/signup"
+              className="rounded-md border border-primary px-4 py-1.5 font-medium text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+            >
+              Sign Up
+            </Link>
+          </>
+        )}
+      </div>
     </nav>
   );
 };

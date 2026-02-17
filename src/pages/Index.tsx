@@ -6,13 +6,20 @@ import Navbar from "@/components/Navbar";
 import { ArrowRight, Film, Code, Sparkles } from "lucide-react";
 
 const Index = () => {
-  const [showSplash, setShowSplash] = useState(true);
-  const [showContent, setShowContent] = useState(false);
+  const [showSplash, setShowSplash] = useState(() => {
+    if (sessionStorage.getItem("splash_shown")) return false;
+    return true;
+  });
+  const [showContent, setShowContent] = useState(() => {
+    return !!sessionStorage.getItem("splash_shown");
+  });
 
   useEffect(() => {
+    if (!showSplash) return;
+    sessionStorage.setItem("splash_shown", "true");
     const timer = setTimeout(() => setShowSplash(false), 3000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [showSplash]);
 
   return (
     <div className="min-h-screen bg-background text-foreground">
