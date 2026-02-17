@@ -59,27 +59,83 @@
   }
 }
 
+/* Ocean background gradient */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 120%, hsla(190, 80%, 25%, 0.25) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 20% 80%, hsla(200, 70%, 20%, 0.2) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 30% at 80% 60%, hsla(175, 70%, 20%, 0.15) 0%, transparent 60%),
+    hsl(200, 30%, 4%);
+}
+
 /* Custom cursor glow */
 .cursor-glow {
   position: fixed;
-  width: 300px;
-  height: 300px;
+  width: 350px;
+  height: 350px;
   border-radius: 50%;
   pointer-events: none;
   z-index: 9999;
-  background: radial-gradient(circle, hsla(190, 80%, 45%, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, hsla(190, 80%, 45%, 0.15) 0%, hsla(175, 70%, 40%, 0.05) 40%, transparent 70%);
   transform: translate(-50%, -50%);
   transition: opacity 0.3s;
 }
 
 .cursor-dot {
   position: fixed;
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
   pointer-events: none;
   z-index: 10000;
-  background: hsl(190, 80%, 45%);
+  background: hsl(190, 80%, 55%);
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 12px 3px hsla(190, 80%, 45%, 0.5);
+  box-shadow: 0 0 16px 4px hsla(190, 80%, 50%, 0.6), 0 0 40px 8px hsla(190, 80%, 45%, 0.2);
+}
+
+.cursor-trail {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  background: hsla(190, 80%, 55%, 0.5);
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 8px 2px hsla(190, 80%, 50%, 0.3);
+}
+
+/* Button hover animations */
+@layer components {
+  button, a {
+    cursor: none;
+  }
+
+  .btn-ocean {
+    @apply relative overflow-hidden;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+  }
+
+  .btn-ocean:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px -4px hsla(190, 80%, 45%, 0.4), 0 0 30px -8px hsla(190, 80%, 45%, 0.2);
+  }
+
+  .btn-ocean:active {
+    transform: translateY(0px);
+  }
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px -8px hsla(190, 80%, 45%, 0.2), 0 0 0 1px hsla(190, 80%, 45%, 0.1);
 }

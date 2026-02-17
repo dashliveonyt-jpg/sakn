@@ -30,6 +30,7 @@ const Profile = () => {
   const [videos, setVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
@@ -76,16 +77,42 @@ const Profile = () => {
     }
 
     setUploading(true);
+    setUploadProgress(0);
     const ext = file.name.split(".").pop();
     const path = `${user.id}/${Date.now()}.${ext}`;
 
-    const { error: uploadError } = await supabase.storage
-      .from("videos")
-      .upload(path, file);
+    // Use XMLHttpRequest for progress tracking
+    const session = await supabase.auth.getSession();
+    const token = session.data.session?.access_token;
+    const projectUrl = import.meta.env.VITE_SUPABASE_URL;
+
+    const uploadPromise = new Promise<{ error: string | null }>((resolve) => {
+      const xhr = new XMLHttpRequest();
+      xhr.upload.addEventListener("progress", (e) => {
+        if (e.lengthComputable) {
+          setUploadProgress(Math.round((e.loaded / e.total) * 100));
+        }
+      });
+      xhr.addEventListener("load", () => {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          resolve({ error: null });
+        } else {
+          resolve({ error: `Upload failed with status ${xhr.status}` });
+        }
+      });
+      xhr.addEventListener("error", () => resolve({ error: "Upload failed" }));
+      xhr.open("POST", `${projectUrl}/storage/v1/object/videos/${path}`);
+      xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+      xhr.setRequestHeader("x-upsert", "false");
+      xhr.send(file);
+    });
+
+    const { error: uploadError } = await uploadPromise;
 
     if (uploadError) {
-      alert("Upload failed: " + uploadError.message);
+      alert("Upload failed: " + uploadError);
       setUploading(false);
+      setUploadProgress(0);
       return;
     }
 
@@ -109,6 +136,7 @@ const Profile = () => {
       await fetchVideos(user.id);
     }
     setUploading(false);
+    setUploadProgress(0);
   };
 
   const handleDelete = async (video: Video) => {
@@ -182,13 +210,27 @@ const Profile = () => {
               accept="video/*"
               className="block w-full text-sm text-muted-foreground file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer"
             />
+            {uploading && (
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs text-muted-foreground">
+                  <span>Uploading...</span>
+                  <span>{uploadProgress}%</span>
+                </div>
+                <div className="w-full h-2 rounded-full bg-secondary overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-primary transition-all duration-300 ease-out"
+                    style={{ width: `${uploadProgress}%` }}
+                  />
+                </div>
+              </div>
+            )}
             <button
               onClick={handleUpload}
               disabled={uploading || !title.trim()}
-              className="inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-opacity disabled:opacity-50"
+              className="btn-ocean inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground disabled:opacity-50"
             >
               <Upload className="h-4 w-4" />
-              {uploading ? "Uploading..." : "Upload"}
+              {uploading ? `Uploading ${uploadProgress}%` : "Upload"}
             </button>
           </div>
         </motion.div>

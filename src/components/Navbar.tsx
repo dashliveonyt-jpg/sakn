@@ -51,7 +51,7 @@ const Navbar = () => {
           <>
             <Link
               to="/profile"
-              className="inline-flex items-center gap-1.5 rounded-md border border-primary px-4 py-1.5 font-medium text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+              className="btn-ocean inline-flex items-center gap-1.5 rounded-md border border-primary px-4 py-1.5 font-medium text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
             >
               <UserIcon className="h-4 w-4" />
               Profile
@@ -73,7 +73,7 @@ const Navbar = () => {
             </Link>
             <Link
               to="/signup"
-              className="rounded-md border border-primary px-4 py-1.5 font-medium text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+              className="btn-ocean rounded-md border border-primary px-4 py-1.5 font-medium text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
             >
               Sign Up
             </Link>
