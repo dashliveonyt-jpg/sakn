@@ -4,8 +4,9 @@ import { supabase } from "@/integrations/supabase/client";
 import CursorGlow from "@/components/CursorGlow";
 import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
-import { Upload, Trash2, Link as LinkIcon, User } from "lucide-react";
+import { Upload, Trash2, Link as LinkIcon, User, Check } from "lucide-react";
 import type { User as SupaUser } from "@supabase/supabase-js";
+import { useToast } from "@/hooks/use-toast";
 
 interface Profile {
   id: string;
@@ -23,6 +24,7 @@ interface Video {
 }
 
 const Profile = () => {
+  const { toast } = useToast();
   const navigate = useNavigate();
   const fileRef = useRef<HTMLInputElement>(null);
   const [user, setUser] = useState<SupaUser | null>(null);
@@ -271,9 +273,9 @@ const Profile = () => {
                     <div className="flex items-center gap-1">
                       <button
                         onClick={() => {
-                          const embedUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/video-embed?id=${video.id}`;
-                          navigator.clipboard.writeText(embedUrl);
-                          alert("Embed link copied! Paste it in Discord, Twitter, etc. for a video preview.");
+                          const url = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/video-embed?id=${video.id}`;
+                          navigator.clipboard.writeText(url);
+                          toast({ title: "Copied link" });
                         }}
                         className="text-muted-foreground hover:text-primary transition-colors p-1"
                         title="Copy share link"
