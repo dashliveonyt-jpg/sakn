@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import CursorGlow from "@/components/CursorGlow";
 import Navbar from "@/components/Navbar";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirect = searchParams.get("redirect") || "/profile";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -20,7 +22,7 @@ const Login = () => {
     if (error) {
       setError(error.message);
     } else {
-      navigate("/profile");
+      navigate(redirect);
     }
   };
 
