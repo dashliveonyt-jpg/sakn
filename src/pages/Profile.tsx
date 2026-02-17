@@ -70,8 +70,8 @@ const Profile = () => {
     if (!fileRef.current?.files?.[0] || !user || !title.trim()) return;
 
     const file = fileRef.current.files[0];
-    if (file.size > 20 * 1024 * 1024) {
-      alert("File must be under 20MB");
+    if (file.size > 1024 * 1024 * 1024) {
+      alert("File must be under 1GB");
       return;
     }
 
