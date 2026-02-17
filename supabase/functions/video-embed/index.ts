@@ -62,15 +62,20 @@ Deno.serve(async (req) => {
   <meta name="twitter:player:stream" content="${video.video_url}">
   <meta name="twitter:player:stream:content_type" content="video/mp4">
   <title>${escapeHtml(title)}</title>
-  <meta http-equiv="refresh" content="0;url=${pageUrl}">
 </head>
 <body>
-  <p>Redirecting to <a href="${pageUrl}">${escapeHtml(title)}</a>...</p>
+  <p>Redirecting...</p>
+  <script>window.location.replace("${pageUrl}");</script>
+  <noscript><meta http-equiv="refresh" content="0;url=${pageUrl}"></noscript>
 </body>
 </html>`;
 
   return new Response(html, {
-    headers: { ...corsHeaders, "Content-Type": "text/html; charset=utf-8" },
+    status: 200,
+    headers: {
+      ...corsHeaders,
+      "Content-Type": "text/html; charset=utf-8",
+    },
   });
 });
 

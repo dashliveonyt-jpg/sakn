@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
 import { ArrowLeft, User } from "lucide-react";
 
+
 interface VideoData {
   id: string;
   title: string;
