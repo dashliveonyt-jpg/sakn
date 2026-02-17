@@ -1,4 +1,4 @@
-import { Sparkles } from "lucide-react";
+import { Sparkles, User as UserIcon } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -51,9 +51,10 @@ const Navbar = () => {
           <>
             <Link
               to="/profile"
-              className="text-muted-foreground hover:text-foreground transition-colors hidden sm:inline truncate max-w-[120px]"
+              className="inline-flex items-center gap-1.5 rounded-md border border-primary px-4 py-1.5 font-medium text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
             >
-              {user.email}
+              <UserIcon className="h-4 w-4" />
+              Profile
             </Link>
             <button
               onClick={handleLogout}
