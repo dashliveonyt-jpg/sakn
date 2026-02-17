@@ -49,9 +49,12 @@ const Navbar = () => {
       <div className="flex items-center gap-3 text-sm">
         {user ? (
           <>
-            <span className="text-muted-foreground hidden sm:inline truncate max-w-[120px]">
+            <Link
+              to="/profile"
+              className="text-muted-foreground hover:text-foreground transition-colors hidden sm:inline truncate max-w-[120px]"
+            >
               {user.email}
-            </span>
+            </Link>
             <button
               onClick={handleLogout}
               className="text-muted-foreground hover:text-foreground transition-colors"
