@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import CursorGlow from "@/components/CursorGlow";
 import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
-import { Upload, Trash2, Play, User } from "lucide-react";
+import { Upload, Trash2, Link as LinkIcon, User } from "lucide-react";
 import type { User as SupaUser } from "@supabase/supabase-js";
 
 interface Profile {
@@ -226,12 +226,25 @@ const Profile = () => {
                         {new Date(video.created_at).toLocaleDateString()}
                       </p>
                     </div>
-                    <button
-                      onClick={() => handleDelete(video)}
-                      className="text-muted-foreground hover:text-red-500 transition-colors p-1"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => {
+                          const url = `${window.location.origin}/video/${video.id}`;
+                          navigator.clipboard.writeText(url);
+                          alert("Link copied!");
+                        }}
+                        className="text-muted-foreground hover:text-primary transition-colors p-1"
+                        title="Copy share link"
+                      >
+                        <LinkIcon className="h-4 w-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(video)}
+                        className="text-muted-foreground hover:text-destructive transition-colors p-1"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </motion.div>
