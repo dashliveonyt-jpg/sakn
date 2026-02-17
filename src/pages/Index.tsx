@@ -30,41 +30,27 @@ const Index = () => {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          {/* Wavy Coming Soon */}
           <div className="flex overflow-hidden">
             {comingSoonLetters.map((letter, i) => (
               <motion.span
                 key={i}
-                className="text-lg font-bold uppercase tracking-[0.3em] text-muted-foreground sm:text-xl"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: 0.15 + i * 0.05,
-                  duration: 0.5,
-                  ease: [0.22, 1, 0.36, 1],
+                className="text-2xl font-bold uppercase tracking-[0.3em] text-foreground sm:text-3xl md:text-4xl"
+                animate={{
+                  y: [0, -8, 0],
                 }}
-                style={{ display: "inline-block", minWidth: letter === " " ? "0.4em" : undefined }}
+                transition={{
+                  delay: i * 0.08,
+                  duration: 1.2,
+                  repeat: Infinity,
+                  repeatDelay: comingSoonLetters.length * 0.08,
+                  ease: "easeInOut",
+                }}
+                style={{ display: "inline-block", minWidth: letter === " " ? "0.5em" : undefined }}
               >
                 {letter}
               </motion.span>
             ))}
           </div>
-
-          <motion.div
-            className="mt-6 h-px w-16 bg-primary/20"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ delay: 0.9, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-          />
-
-          <motion.p
-            className="mt-5 text-sm font-bold text-muted-foreground/40"
-            initial={{ opacity: 0, filter: "blur(4px)" }}
-            animate={{ opacity: 1, filter: "blur(0px)" }}
-            transition={{ delay: 1.1, duration: 0.7 }}
-          >
-            sakn's edits
-          </motion.p>
         </motion.div>
       )}
     </div>
