@@ -53,35 +53,9 @@ const Tools = () => {
         </motion.p>
 
         <div className="grid gap-6 sm:grid-cols-2">
-          <motion.a
-            href="https://tiktok.com/@Uhsakn"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group rounded-xl border border-white/10 bg-white/[0.03] p-6 hover:border-primary/40 hover:bg-white/[0.06] transition-all duration-300 card-hover"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-          >
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                <Film className="h-5 w-5" />
-              </div>
-              <span className="rounded-full bg-primary/20 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-primary">
-                New
-              </span>
-            </div>
-            <h3 className="text-lg font-bold mb-1">sakn's edits</h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              check out sakn's edits, clean and creative.
-            </p>
-            <span className="inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">
-              View Edits <ArrowRight className="h-4 w-4" />
-            </span>
-          </motion.a>
-
           <motion.button
             onClick={handleVideoHosting}
-            className="group rounded-xl border border-white/10 bg-white/[0.03] p-6 hover:border-primary/40 hover:bg-white/[0.06] transition-all duration-300 text-left card-hover"
+            className="group rounded-xl border border-white/10 bg-white/[0.03] p-6 hover:border-primary/40 hover:bg-white/[0.06] transition-all duration-300 text-left card-tilt"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.6 }}
