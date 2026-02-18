@@ -1,6 +1,6 @@
 project_id = "chjdjcmaegltjeufdhrj"
 
-[functions.video-embed]
+[functions.cleanup-videos]
 verify_jwt = false
 
 [storage]
