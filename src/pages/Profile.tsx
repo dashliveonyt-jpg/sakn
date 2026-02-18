@@ -4,9 +4,12 @@ import { supabase } from "@/integrations/supabase/client";
 import CursorGlow from "@/components/CursorGlow";
 import Navbar from "@/components/Navbar";
 import { motion } from "framer-motion";
-import { Upload, Trash2, Link as LinkIcon, User, Check } from "lucide-react";
+import { Upload, Trash2, Link as LinkIcon, User, Clock } from "lucide-react";
 import type { User as SupaUser } from "@supabase/supabase-js";
 import { useToast } from "@/hooks/use-toast";
+
+const PROTECTED_EMAIL = "sakn@gmail.com";
+const DELETION_HOURS = 48;
 
 interface Profile {
   id: string;
@@ -23,6 +26,22 @@ interface Video {
   created_at: string;
 }
 
+const getTimeRemaining = (createdAt: string) => {
+  const created = new Date(createdAt).getTime();
+  const expiresAt = created + DELETION_HOURS * 60 * 60 * 1000;
+  const now = Date.now();
+  const diff = expiresAt - now;
+  if (diff <= 0) return "Expiring soon";
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  if (hours >= 24) {
+    const days = Math.floor(hours / 24);
+    const remainingHours = hours % 24;
+    return `${days}d ${remainingHours}h left`;
+  }
+  return `${hours}h ${minutes}m left`;
+};
+
 const Profile = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -35,6 +54,16 @@ const Profile = () => {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [, setTick] = useState(0);
+
+  const isProtected = user?.email === PROTECTED_EMAIL;
+
+  // Tick every minute to update countdown timers
+  useEffect(() => {
+    if (isProtected) return;
+    const interval = setInterval(() => setTick((t) => t + 1), 60000);
+    return () => clearInterval(interval);
+  }, [isProtected]);
 
   useEffect(() => {
     const init = async () => {
@@ -83,7 +112,6 @@ const Profile = () => {
     const ext = file.name.split(".").pop();
     const path = `${user.id}/${Date.now()}.${ext}`;
 
-    // Use XMLHttpRequest for progress tracking
     const session = await supabase.auth.getSession();
     const token = session.data.session?.access_token;
     const projectUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -143,7 +171,6 @@ const Profile = () => {
 
   const handleDelete = async (video: Video) => {
     if (!user) return;
-    // Extract path from URL
     const urlParts = video.video_url.split("/videos/");
     const filePath = urlParts[urlParts.length - 1];
 
@@ -189,6 +216,12 @@ const Profile = () => {
           transition={{ delay: 0.1 }}
         >
           <h2 className="text-lg font-bold mb-4">Post a Video</h2>
+          {!isProtected && (
+            <div className="flex items-center gap-2 mb-4 rounded-lg bg-accent/10 border border-accent/20 px-4 py-2.5 text-xs text-accent">
+              <Clock className="h-3.5 w-3.5 flex-shrink-0" />
+              <span>Videos are automatically deleted after 48 hours.</span>
+            </div>
+          )}
           <div className="space-y-3">
             <input
               type="text"
@@ -254,23 +287,31 @@ const Profile = () => {
                 <div className="relative aspect-video bg-black">
                   <video
                     src={video.video_url}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                     controls
                     preload="metadata"
                   />
                 </div>
                 <div className="p-4">
                   <div className="flex items-start justify-between">
-                    <div>
+                    <div className="min-w-0 flex-1">
                       <h3 className="font-semibold text-sm">{video.title}</h3>
                       {video.description && (
                         <p className="text-xs text-muted-foreground mt-1">{video.description}</p>
                       )}
-                      <p className="text-xs text-muted-foreground/50 mt-2">
-                        {new Date(video.created_at).toLocaleDateString()}
-                      </p>
+                      <div className="flex items-center gap-3 mt-2">
+                        <p className="text-xs text-muted-foreground/50">
+                          {new Date(video.created_at).toLocaleDateString()}
+                        </p>
+                        {!isProtected && (
+                          <span className="inline-flex items-center gap-1 text-xs text-accent">
+                            <Clock className="h-3 w-3" />
+                            {getTimeRemaining(video.created_at)}
+                          </span>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 flex-shrink-0">
                       <button
                         onClick={() => {
                           const url = `https://sakn.lol/video/${video.id}`;
