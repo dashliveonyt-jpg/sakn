@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import CursorGlow from "@/components/CursorGlow";
+import TiltCard from "@/components/TiltCard";
 
 const socials = [
   {
@@ -41,30 +42,34 @@ const Socials = () => {
 
         <div className="grid gap-6 sm:grid-cols-2 max-w-2xl mx-auto">
           {socials.map((social, i) => (
-            <motion.a
+            <motion.div
               key={social.name}
-              href={social.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group rounded-xl border border-white/10 bg-white/[0.03] p-6 hover:border-primary/40 hover:bg-white/[0.06] transition-all duration-300 card-tilt"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 + i * 0.1, duration: 0.6 }}
             >
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  {social.icon}
+              <TiltCard
+                as="a"
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block group rounded-xl border border-white/10 bg-white/[0.03] p-6 hover:border-primary/40 hover:bg-white/[0.06] transition-all duration-300"
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    {social.icon}
+                  </div>
                 </div>
-              </div>
-              <h3 className="text-lg font-bold mb-1">{social.name}</h3>
-              <p className="text-sm text-muted-foreground mb-4">{social.handle}</p>
-              <span className="inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">
-                Visit Profile
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
-              </span>
-            </motion.a>
+                <h3 className="text-lg font-bold mb-1">{social.name}</h3>
+                <p className="text-sm text-muted-foreground mb-4">{social.handle}</p>
+                <span className="inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">
+                  Visit Profile
+                  <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </TiltCard>
+            </motion.div>
           ))}
         </div>
       </section>

@@ -14,83 +14,58 @@ const SplashScreen = ({ onComplete, isVisible }: SplashScreenProps) => {
       {isVisible && (
         <motion.div
           className="fixed inset-0 z-50 flex items-center justify-center bg-background overflow-hidden"
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
+          exit={{ opacity: 0, filter: "blur(10px)" }}
+          transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
         >
-          {/* Animated background rings */}
+          {/* Soft pulsing glow */}
           <motion.div
-            className="absolute rounded-full border border-primary/10"
-            style={{ width: 300, height: 300 }}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: [0, 2.5], opacity: [0.4, 0] }}
-            transition={{ delay: 0.2, duration: 2, ease: "easeOut" }}
-          />
-          <motion.div
-            className="absolute rounded-full border border-primary/10"
-            style={{ width: 300, height: 300 }}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: [0, 2.5], opacity: [0.3, 0] }}
-            transition={{ delay: 0.5, duration: 2, ease: "easeOut" }}
-          />
-
-          {/* Glow behind text */}
-          <motion.div
-            className="absolute w-64 h-64 rounded-full"
+            className="absolute w-[500px] h-[500px] rounded-full"
             style={{
-              background: "radial-gradient(circle, hsla(190, 80%, 45%, 0.3) 0%, transparent 70%)",
+              background: "radial-gradient(circle, hsla(190, 80%, 45%, 0.2) 0%, hsla(190, 80%, 45%, 0.05) 40%, transparent 70%)",
             }}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: [0, 1.5], opacity: [0, 1, 0.6] }}
-            transition={{ delay: 0.3, duration: 1.5, ease: "easeOut" }}
+            initial={{ scale: 0.5, opacity: 0 }}
+            animate={{ scale: [0.5, 1.2, 1], opacity: [0, 0.8, 0.5] }}
+            transition={{ duration: 2, ease: [0.22, 1, 0.36, 1] }}
           />
 
-          <div className="relative flex items-baseline gap-3 text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl">
-            {/* Letter-by-letter "sakn's" */}
-            <span className="flex text-primary">
-              {letters1.map((letter, i) => (
-                <motion.span
-                  key={`w1-${i}`}
-                  initial={{ opacity: 0, y: 40, rotateX: -90 }}
-                  animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                  transition={{
-                    delay: 0.3 + i * 0.06,
-                    duration: 0.5,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  style={{ display: "inline-block" }}
-                >
-                  {letter}
-                </motion.span>
-              ))}
-            </span>
+          {/* Single expanding ring */}
+          <motion.div
+            className="absolute rounded-full border border-primary/15"
+            style={{ width: 200, height: 200 }}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 3, opacity: [0, 0.3, 0] }}
+            transition={{ delay: 0.4, duration: 2.5, ease: "easeOut" }}
+          />
 
-            {/* Letter-by-letter "edits" */}
-            <span className="flex text-foreground">
-              {letters2.map((letter, i) => (
-                <motion.span
-                  key={`w2-${i}`}
-                  initial={{ opacity: 0, y: 40, rotateX: -90 }}
-                  animate={{ opacity: 1, y: 0, rotateX: 0 }}
-                  transition={{
-                    delay: 0.7 + i * 0.06,
-                    duration: 0.5,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  style={{ display: "inline-block" }}
-                >
-                  {letter}
-                </motion.span>
-              ))}
-            </span>
+          <div className="relative flex items-baseline gap-3 text-4xl font-bold tracking-tight sm:text-5xl md:text-7xl" style={{ perspective: 600 }}>
+            {/* "sakn's" — smooth fade-slide */}
+            <motion.span
+              className="text-primary"
+              initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ delay: 0.3, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {letters1.join("")}
+            </motion.span>
+
+            {/* "edits" — smooth fade-slide, slightly delayed */}
+            <motion.span
+              className="text-foreground"
+              initial={{ opacity: 0, y: 20, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ delay: 0.55, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {letters2.join("")}
+            </motion.span>
           </div>
 
           {/* Underline sweep */}
           <motion.div
             className="absolute h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent"
-            style={{ width: "40%", bottom: "46%" }}
+            style={{ width: "30%", bottom: "46%" }}
             initial={{ scaleX: 0, opacity: 0 }}
-            animate={{ scaleX: 1, opacity: [0, 1, 1, 0] }}
-            transition={{ delay: 1.2, duration: 1.2, ease: "easeInOut" }}
+            animate={{ scaleX: [0, 1], opacity: [0, 0.8, 0.8, 0] }}
+            transition={{ delay: 1, duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
           />
         </motion.div>
       )}
