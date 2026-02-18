@@ -3,9 +3,13 @@ import { motion } from "framer-motion";
 import SplashScreen from "@/components/SplashScreen";
 import CursorGlow from "@/components/CursorGlow";
 import Navbar from "@/components/Navbar";
-import { ArrowRight, Film, Code, Sparkles } from "lucide-react";
+import { ArrowRight, Video, Code, Sparkles } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 const Index = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState<null | object>(null);
   const [showSplash, setShowSplash] = useState(() => {
     if (sessionStorage.getItem("splash_shown")) return false;
     return true;
@@ -13,6 +17,21 @@ const Index = () => {
   const [showContent, setShowContent] = useState(() => {
     return !!sessionStorage.getItem("splash_shown");
   });
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
+      setUser(session?.user ?? null);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleVideoHosting = () => {
+    if (user) navigate("/profile");
+    else navigate("/login?redirect=/profile");
+  };
 
   useEffect(() => {
     if (!showSplash) return;
@@ -72,31 +91,29 @@ const Index = () => {
 
           {/* Cards */}
           <section id="tools" className="max-w-4xl mx-auto px-6 pb-32 grid gap-6 sm:grid-cols-2">
-            <motion.a
-              href="https://tiktok.com/@Uhsakn"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="card-hover group rounded-xl border border-white/10 bg-white/[0.03] p-6 hover:border-primary/40 hover:bg-white/[0.06] transition-all duration-300"
+            <motion.button
+              onClick={handleVideoHosting}
+              className="card-tilt group rounded-xl border border-white/10 bg-white/[0.03] p-6 hover:border-primary/40 hover:bg-white/[0.06] transition-all duration-300 text-left"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.6 }}
             >
               <div className="flex items-start justify-between mb-4">
                 <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <Film className="h-5 w-5" />
+                  <Video className="h-5 w-5" />
                 </div>
                 <span className="rounded-full bg-primary/20 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-primary">
                   New
                 </span>
               </div>
-              <h3 className="text-lg font-bold mb-1">sakn's edits</h3>
+              <h3 className="text-lg font-bold mb-1">video hosting</h3>
               <p className="text-sm text-muted-foreground mb-4">
-                check out sakn's edits, clean and creative.
+                {user ? "upload and share your videos." : "log in to upload and share videos."}
               </p>
               <span className="inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">
-                View Edits <ArrowRight className="h-4 w-4" />
+                {user ? "Go to Profile" : "Log In to Use"} <ArrowRight className="h-4 w-4" />
               </span>
-            </motion.a>
+            </motion.button>
 
             <motion.div
               className="rounded-xl border border-white/10 bg-white/[0.03] p-6 opacity-60"

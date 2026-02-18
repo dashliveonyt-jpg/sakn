@@ -44,6 +44,12 @@ const Navbar = () => {
         >
           Tools
         </Link>
+        <Link
+          to="/socials"
+          className={`transition-colors ${location.pathname === "/socials" ? "text-foreground" : "text-muted-foreground hover:text-foreground"}`}
+        >
+          Socials
+        </Link>
       </div>
 
       <div className="flex items-center gap-3 text-sm">
