@@ -142,10 +142,13 @@ body::before {
 
 /* Tilt on hover */
 .card-tilt {
-  transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.25s cubic-bezier(0.33, 1, 0.68, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+  transform-style: preserve-3d;
 }
 
 .card-tilt:hover {
-  transform: perspective(800px) rotateY(-4deg) rotateX(2deg) translateY(-4px);
-  box-shadow: 0 8px 30px -8px hsla(190, 80%, 45%, 0.2), 0 0 0 1px hsla(190, 80%, 45%, 0.1);
+  transform: perspective(600px) rotateY(-5deg) rotateX(3deg) scale(1.03);
+  box-shadow:
+    12px 8px 30px -8px hsla(190, 80%, 45%, 0.25),
+    0 0 0 1px hsla(190, 80%, 45%, 0.15);
 }
