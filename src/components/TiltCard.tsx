@@ -22,12 +22,14 @@ const TiltCard = ({ children, className = "", options, as: Tag = "div", ...props
   const initTilt = useCallback(() => {
     if (!ref.current) return;
     VanillaTilt.init(ref.current, {
-      max: 8,
-      speed: 400,
+      max: 10,
+      speed: 1200,
       glare: true,
-      "max-glare": 0.15,
-      perspective: 800,
+      "max-glare": 0.12,
+      perspective: 1000,
       scale: 1.02,
+      reverse: true,
+      easing: "cubic-bezier(0.23, 1, 0.32, 1)",
       ...options,
     });
   }, [options]);
